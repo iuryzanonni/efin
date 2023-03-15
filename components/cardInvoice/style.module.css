@@ -6,29 +6,27 @@
   border-radius: 5px;
   color: white;
   padding: 10px;
+  margin-bottom: 15px;
 }
 
 .description {
   display: flex;
   flex-direction: column;
-  background-color: inherit;
 }
 
 .invoice {
   display: flex;
   font-size: 1.2rem;
   font-weight: 600;
-  background-color: inherit;
 }
 
 .invoiceValue {
   display: flex;
   font-weight: 200;
-  background-color: inherit;
 }
 
 .buttons {
-  background-color: inherit;
+  display: flex;
 }
 
 .button {

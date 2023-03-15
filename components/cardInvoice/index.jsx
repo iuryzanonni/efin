@@ -14,10 +14,10 @@ export default function CardInvoice(props) {
       </div>
       <div className={styles.buttons}>
         <button className={styles.button} onClick={props.onClickCheck}>
-          <CheckIcon sx={{ fontSize: 35 }} style={{ backgroundColor: "inherit" }} />
+          <CheckIcon sx={{ fontSize: 30 }} style={{ backgroundColor: "inherit" }} />
         </button>
         <button className={styles.button} onClick={props.onClickDelete}>
-          <ClearIcon sx={{ fontSize: 35 }} style={{ backgroundColor: "inherit" }} />
+          <ClearIcon sx={{ fontSize: 30 }} style={{ backgroundColor: "inherit" }} />
         </button>
       </div>
     </div>
