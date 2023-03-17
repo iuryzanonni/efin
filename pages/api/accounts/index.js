@@ -1,4 +1,3 @@
-const { Op } = require("sequelize");
 const md5 = require("md5");
 
 import User from "../../../models/User";
