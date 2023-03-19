@@ -1,0 +1,36 @@
+.textField {
+  position: relative;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 5px;
+  border: 0;
+  border-bottom: 2px solid #DDDDDD;
+  background-color: transparent;
+  outline: 0;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.input:focus,
+.input:valid {
+  border-bottom: 2px solid #FFFFFF;
+}
+
+.input:focus ~ label,
+.input:valid ~ label {
+  transform: translateY(-24px);
+  font-size: 1rem;
+}
+
+.label {
+  color: #DDDDDD;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  cursor: text;
+  font-size: 1.1rem;
+}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./style.module.css";
-import { TextField } from "@mui/material";
+import TextField from "../../components/textField";
 import Button from "../../components/button";
 import { API_URL } from "../../public/constants";
 import axios from "axios";
@@ -21,34 +21,28 @@ export default function HomePage(props) {
   };
 
   return (
-    <div className={styles.container}>
+    <form className={styles.container}>
       <div className={styles.logo}>efin</div>
       <div className={styles.inputBlock}>
         <div className={styles.textField}>
           <TextField
             id="login-email"
             label="e-mail"
-            variant="standard"
             fullWidth
             onChange={(event) => {
               setEmail(event.target.value);
             }}
-            InputProps={{ className: styles.textInput }}
-            InputLabelProps={{ className: styles.textInput }}
           />
         </div>
         <div className={styles.textField}>
           <TextField
             id="login-password"
             label="password"
-            variant="standard"
             type="password"
             fullWidth
             onChange={(event) => {
               setPassword(event.target.value);
             }}
-            InputProps={{ className: styles.textInput }}
-            InputLabelProps={{ className: styles.textInput }}
           />
         </div>
         <div className={styles.button}>
@@ -58,6 +52,6 @@ export default function HomePage(props) {
           <Button text="Forgot my password" backgroundColor="transparent" />
         </div>
       </div>
-    </div>
+    </form>
   );
 }
