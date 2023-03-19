@@ -3,32 +3,44 @@ import { useRouter } from "next/router";
 import styles from "./style.module.css";
 import TextField from "../../components/textField";
 import Button from "../../components/button";
-import { API_URL } from "../../public/constants";
 import axios from "axios";
-import md5 from "md5";
+import cookiesService from "../../service/cookieService";
 
-export default function HomePage(props) {
+export default function Login(props) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (data) => {
+    console.log(data);
     const user = await axios
       .post("/api/accounts/auth", { ...data })
       .then((resposnse) => resposnse.data)
       .catch((ex) => console.log(ex));
+    console.log(user);
+    generateAuthCookie(user);
+
     router.push("/faturas");
   };
 
+  const generateAuthCookie = (user) => {
+    const userCookie = {};
+    console.log(user);
+    userCookie["name"] = "EFIN_JWT";
+    userCookie["value"] = user.token;
+    userCookie["expires"] = 7;
+
+    cookiesService.createCookie(userCookie);
+  };
+
   return (
-    <form className={styles.container}>
+    <div className={styles.container}>
       <div className={styles.logo}>efin</div>
       <div className={styles.inputBlock}>
         <div className={styles.textField}>
           <TextField
             id="login-email"
             label="e-mail"
-            fullWidth
             onChange={(event) => {
               setEmail(event.target.value);
             }}
@@ -39,7 +51,6 @@ export default function HomePage(props) {
             id="login-password"
             label="password"
             type="password"
-            fullWidth
             onChange={(event) => {
               setPassword(event.target.value);
             }}
@@ -52,6 +63,6 @@ export default function HomePage(props) {
           <Button text="Forgot my password" backgroundColor="transparent" />
         </div>
       </div>
-    </form>
+    </div>
   );
 }
