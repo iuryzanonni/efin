@@ -18,3 +18,26 @@
   margin-top: 20px;
   width: 90%
 }
+
+.button {
+  width: 90%;
+}
+
+.addPaper {
+  background-color: #3A3A3A;
+  width: 90%;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 25px;
+}
+
+.addButton {
+  margin-top: 25px;
+  width: 90%;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  color: white;
+}

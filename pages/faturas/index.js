@@ -4,6 +4,7 @@ import styles from "./style.module.css";
 import propTypes from "prop-types";
 import Header from "../../components/header";
 import CardInvoice from "../../components/cardInvoice";
+import Button from "../../components/button";
 
 export default function Faturas(props) {
   const monthNames = [
@@ -39,6 +40,9 @@ export default function Faturas(props) {
           {tests.map((invoice, index) => {
             return <CardInvoice key={index} name={invoice.name} value={invoice.value} />;
           })}
+        </div>
+        <div className={styles.button}>
+          <Button text="Adicionar fatura" />
         </div>
       </div>
     </div>
