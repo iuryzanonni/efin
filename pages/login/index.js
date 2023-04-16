@@ -1,36 +1,47 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { messages } from "../../public/messages";
 import styles from "./style.module.css";
 import TextField from "../../components/textField";
 import Button from "../../components/button";
 import axios from "axios";
 import cookiesService from "../../service/cookieService";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
 
 export default function Login(props) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [inProgress, setInProgress] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleLogin = async (data) => {
-    console.log(data);
-    const user = await axios
-      .post("/api/accounts/auth", { ...data })
-      .then((resposnse) => resposnse.data)
-      .catch((ex) => console.log(ex));
-    console.log(user);
-    generateAuthCookie(user);
+    setInProgress(true);
 
-    router.push("/faturas");
+    try {
+      const user = await axios.post("/api/accounts/auth", { ...data });
+      generateAuthCookie(user.data);
+      router.push("/faturas");
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        setInProgress(false);
+        setShowAlert(true);
+      } else {
+        console.log(error);
+      }
+    }
   };
 
   const generateAuthCookie = (user) => {
     const userCookie = {};
-    console.log(user);
+
     userCookie["name"] = "EFIN_JWT";
     userCookie["value"] = user.token;
     userCookie["expires"] = 7;
 
     cookiesService.createCookie(userCookie);
+    return userCookie;
   };
 
   return (
@@ -62,6 +73,13 @@ export default function Login(props) {
         <div className={styles.button}>
           <Button text="Forgot my password" backgroundColor="transparent" />
         </div>
+        {inProgress && (
+          <div className={styles.progress}>
+            <CircularProgress style={{ color: "white" }} />
+            <div>Carregando</div>
+          </div>
+        )}
+        {showAlert && <Alert severity="warning">{messages.errorForbidden}</Alert>}
       </div>
     </div>
   );

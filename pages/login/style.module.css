@@ -43,3 +43,11 @@
   width: 80%;
   margin-top: 25px;
 }
+
+.progress {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
