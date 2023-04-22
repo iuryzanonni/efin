@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./style.module.css";
 import { useRouter } from "next/router";
-import Button from "../../components/button";
+import Button from "../../src/components/button";
 
 export default function HomePage(props) {
   const router = useRouter();

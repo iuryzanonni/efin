@@ -1,24 +1,33 @@
-import { authorize } from "../../../src/service/authService";
 import Invoice from "../../../src/models/Invoice";
-import User from "../../../src/models/User";
+import { authorize } from "../../../src/service/authService";
+const { Op } = require("sequelize");
+
+const requireAuth = (req, res, next) => {};
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
     authorize(req, res, async function () {
-      await Invoice.findAll()
+      const userId = req.query.userId;
+
+      await Invoice.findAll({
+        where: {
+          userId: {
+            [Op.eq]: userId,
+          },
+        },
+      })
         .then((data) => res.status(200).send(data))
-        .catch((ex) => res.status(404).send("Invoices not found."));
+        .catch((ex) => res.status(404).send("Invoice created successfully"));
     });
   }
 
   if (req.method === "POST") {
     authorize(req, res, async function () {
       const invoice = req.body;
+      const userId = req.query.userId;
 
-      const user = await User.findByPk(invoice.userId);
+      invoice["userId"] = userId;
 
-      invoice["user"] = user.dataValues;
-      console.log(invoice);
       await Invoice.create(invoice)
         .then((data) => res.status(200).send("Invoice created successfully"))
         .catch((ex) => res.status(401).send(ex));

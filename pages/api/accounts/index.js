@@ -1,6 +1,6 @@
 const md5 = require("md5");
 
-import User from "../../../models/User";
+import User from "../../../src/models/User";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {

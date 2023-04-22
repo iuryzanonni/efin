@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 import styles from "./style.module.css";
 import propTypes from "prop-types";
-import Header from "../../components/header";
-import Button from "../../components/button";
-import TextField from "../../components/textField";
+import Header from "../../src/components/header";
+import Button from "../../src/components/button";
+import TextField from "../../src/components/textField";
 import { Checkbox } from "@mui/material";
 
 export default function AddInvoice(props) {

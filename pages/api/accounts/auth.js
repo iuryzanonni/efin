@@ -1,8 +1,8 @@
 const { Op } = require("sequelize");
 const md5 = require("md5");
 
-import User from "../../../models/User";
-const authService = require("../../../service/authService");
+import User from "../../../src/models/User";
+const authService = require("../../../src/service/authService");
 
 export default async function handler(req, res) {
   if (req.method === "POST") {

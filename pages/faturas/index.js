@@ -1,12 +1,17 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import styles from "./style.module.css";
 import propTypes from "prop-types";
-import Header from "../../components/header";
-import CardInvoice from "../../components/cardInvoice";
-import Button from "../../components/button";
+import axios from "axios";
+import { getCookie } from "../../src/service/cookieService";
+import Header from "../../src/components/header";
+import CardInvoice from "../../src/components/cardInvoice";
+import Button from "../../src/components/button";
+
+import { COOKIE_EFIN_JWT } from "../../public/constants";
 
 export default function Faturas(props) {
+  const router = useRouter();
   const monthNames = [
     "Janeiro",
     "Fevereiro",
@@ -22,10 +27,25 @@ export default function Faturas(props) {
     "Dezembro",
   ];
 
-  const tests = [
-    { name: "Fatura 1", value: 123.45 },
-    { name: "Fatura 2", value: 235.11 },
-  ];
+  const [invoices, setInvoices] = useState([]);
+
+  useEffect(() => {
+    handlerInvoices();
+  }, []);
+
+  const handlerInvoices = async () => {
+    const cookie = getCookie(COOKIE_EFIN_JWT);
+    const headers = { "x-access-token": cookie };
+
+    await axios
+      .get("api/invoices/1", { headers: headers })
+      .then((response) => setInvoices(response.data))
+      .catch((error) => console.log(error));
+  };
+
+  const handleAddInvoice = () => {
+    router.push(router.route + "/add");
+  };
 
   const date = props.date ? props.date : new Date();
 
@@ -37,12 +57,20 @@ export default function Faturas(props) {
           {monthNames[date.getMonth()]} - {date.getFullYear()}
         </div>
         <div className={styles.invoices}>
-          {tests.map((invoice, index) => {
-            return <CardInvoice key={index} name={invoice.name} value={invoice.value} />;
-          })}
+          {invoices &&
+            invoices.map((invoice, index) => {
+              return (
+                <CardInvoice
+                  key={index}
+                  type={invoice.type}
+                  value={invoice.value}
+                  dueDate={new Date(invoice.dueDate)}
+                />
+              );
+            })}
         </div>
         <div className={styles.button}>
-          <Button text="Adicionar fatura" />
+          <Button text="Adicionar fatura" onclick={() => handleAddInvoice()} />
         </div>
       </div>
     </div>

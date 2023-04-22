@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { messages } from "../../public/messages";
 import styles from "./style.module.css";
-import TextField from "../../components/textField";
-import Button from "../../components/button";
 import axios from "axios";
-import cookiesService from "../../service/cookieService";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import TextField from "../../src/components/textField";
+import Button from "../../src/components/button";
+import cookiesService from "../../src/service/cookieService";
 
 export default function Login(props) {
   const router = useRouter();
