@@ -34,17 +34,29 @@ export default function Faturas(props) {
   }, []);
 
   const handlerInvoices = async () => {
-    const cookie = getCookie(COOKIE_EFIN_JWT);
-    const headers = { "x-access-token": cookie };
+    const token = getCookie(COOKIE_EFIN_JWT);
+    const headers = { "x-access-token": token };
+
+    const user = await decodeToken(token);
 
     await axios
-      .get("api/invoices/1", { headers: headers })
+      .get(`api/invoices/${user.id}`, { headers: headers })
       .then((response) => setInvoices(response.data))
       .catch((error) => console.log(error));
   };
 
   const handleAddInvoice = () => {
     router.push(router.route + "/add");
+  };
+
+  const decodeToken = async (token) => {
+    const data = await axios
+      .get("api/accounts/decode", { params: { token } })
+      .then((response) => response.data)
+      .then((data) => data.data)
+      .catch((error) => console.log(error));
+
+    return data;
   };
 
   const date = props.date ? props.date : new Date();

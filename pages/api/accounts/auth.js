@@ -10,7 +10,10 @@ export default async function handler(req, res) {
       const user = await User.findOne({
         attributes: ["id", "name", "lastName", "roles"],
         where: {
-          [Op.and]: [{ email: req.body.email }, { password: md5(req.body.password + process.env.NEXT_MD5_HASH) }],
+          [Op.and]: [
+            { email: req.body.email },
+            { password: md5(req.body.password + process.env.NEXT_PUBLIC_MD5_HASH) },
+          ],
         },
       });
 

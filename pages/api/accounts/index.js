@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
   if (req.method === "POST") {
     const user = req.body;
-    user["password"] = md5(user.password + process.env.NEXT_MD5_HASH);
+    user["password"] = md5(user.password + process.env.NEXT_PUBLIC_MD5_HASH);
 
     if (!user.roles) {
       user["roles"] = "USER";

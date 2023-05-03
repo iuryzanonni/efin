@@ -1,23 +1,18 @@
 import Invoice from "../../../src/models/Invoice";
 import { authorize } from "../../../src/service/authService";
-const { Op } = require("sequelize");
-
-const requireAuth = (req, res, next) => {};
+import { findByMonthAndWithoutPayment } from "../../../src/repositories/invoiceRepository";
+import { getFirstAndLastDayOfMonth } from "../../../src/utils/dates";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
     authorize(req, res, async function () {
       const userId = req.query.userId;
 
-      await Invoice.findAll({
-        where: {
-          userId: {
-            [Op.eq]: userId,
-          },
-        },
-      })
+      const { firstDayOfMonth, lastDayOfMonth } = getFirstAndLastDayOfMonth();
+
+      findByMonthAndWithoutPayment({ userId, firstDayOfMonth, lastDayOfMonth })
         .then((data) => res.status(200).send(data))
-        .catch((ex) => res.status(404).send("Invoice created successfully"));
+        .catch((error) => console.log(error));
     });
   }
 
