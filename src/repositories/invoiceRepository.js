@@ -15,7 +15,12 @@ exports.findByMonthAndWithoutPayment = async (data) => {
         [Op.is]: null,
       },
     },
+    order: [["dueDate", "ASC"]],
   });
 
   return invoices;
+};
+
+exports.saveInvoice = async (data) => {
+  await Invoice.create(data);
 };

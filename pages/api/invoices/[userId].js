@@ -1,6 +1,6 @@
 import Invoice from "../../../src/models/Invoice";
 import { authorize } from "../../../src/service/authService";
-import { findByMonthAndWithoutPayment } from "../../../src/repositories/invoiceRepository";
+import { findByMonthAndWithoutPayment, saveInvoice } from "../../../src/repositories/invoiceRepository";
 import { getFirstAndLastDayOfMonth } from "../../../src/utils/dates";
 
 export default async function handler(req, res) {
@@ -23,9 +23,9 @@ export default async function handler(req, res) {
 
       invoice["userId"] = userId;
 
-      await Invoice.create(invoice)
+      await saveInvoice(invoice)
         .then((data) => res.status(200).send("Invoice created successfully"))
-        .catch((ex) => res.status(401).send(ex));
+        .catch((error) => res.status(404).send(error));
     });
   }
 }
