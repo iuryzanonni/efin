@@ -1,6 +1,6 @@
 import Invoice from "../../../src/models/Invoice";
 import { authorize } from "../../../src/service/authService";
-import { findByMonthAndWithoutPayment, saveInvoice } from "../../../src/repositories/invoiceRepository";
+import { findByMonthAndWithoutPayment, saveInvoice, updateInvoice } from "../../../src/repositories/invoiceRepository";
 import { getFirstAndLastDayOfMonth } from "../../../src/utils/dates";
 
 export default async function handler(req, res) {
@@ -25,6 +25,16 @@ export default async function handler(req, res) {
 
       await saveInvoice(invoice)
         .then((data) => res.status(200).send("Invoice created successfully"))
+        .catch((error) => res.status(404).send(error));
+    });
+  }
+
+  if (req.method === "PUT") {
+    authorize(req, res, async function () {
+      const invoice = req.body;
+
+      await updateInvoice(invoice)
+        .then((data) => res.status(200).send("Invoice updated successfully."))
         .catch((error) => res.status(404).send(error));
     });
   }

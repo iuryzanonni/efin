@@ -24,3 +24,7 @@ exports.findByMonthAndWithoutPayment = async (data) => {
 exports.saveInvoice = async (data) => {
   await Invoice.create(data);
 };
+
+exports.updateInvoice = async (data) => {
+  await Invoice.update({ ...data }, { where: { id: data.id } });
+};

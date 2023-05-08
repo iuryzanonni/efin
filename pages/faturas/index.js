@@ -9,6 +9,7 @@ import CardInvoice from "../../src/components/cardInvoice";
 import Button from "../../src/components/button";
 
 import { COOKIE_EFIN_JWT } from "../../public/constants";
+import api from "../../src/config/axiosConfig";
 
 export default function Faturas(props) {
   const router = useRouter();
@@ -32,6 +33,8 @@ export default function Faturas(props) {
   useEffect(() => {
     handlerInvoices();
   }, []);
+
+  const date = props.date ? props.date : new Date();
 
   const handlerInvoices = async () => {
     const token = getCookie(COOKIE_EFIN_JWT);
@@ -59,7 +62,28 @@ export default function Faturas(props) {
     return data;
   };
 
-  const date = props.date ? props.date : new Date();
+  const updateInvoice = async (invoice) => {
+    const token = getCookie(COOKIE_EFIN_JWT);
+    const headers = { "x-access-token": token };
+    invoice.payment = new Date();
+
+    const response = api
+      .put(`invoices/${invoice.userId}`, invoice, { headers: headers })
+      .then((response) => {
+        response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    return response;
+  };
+
+  const paymentInvoice = async (invoice) => {
+    invoice.payment = new Date();
+    await saveInvoice(invoice);
+    console.log(invoice);
+  };
 
   return (
     <div>
@@ -73,10 +97,11 @@ export default function Faturas(props) {
             invoices.map((invoice, index) => {
               return (
                 <CardInvoice
-                  key={index}
+                  key={invoice.id}
                   type={invoice.type}
                   value={invoice.value}
                   dueDate={new Date(invoice.dueDate)}
+                  onClickCheck={() => updateInvoice(invoice)}
                 />
               );
             })}
