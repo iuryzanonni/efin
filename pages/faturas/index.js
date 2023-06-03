@@ -10,6 +10,7 @@ import Button from "../../src/components/button";
 
 import { COOKIE_EFIN_JWT } from "../../public/constants";
 import api from "../../src/config/axiosConfig";
+import CardInvoiceTotal from "../../src/components/cardInvoiceTotal";
 
 export default function Faturas(props) {
   const router = useRouter();
@@ -106,6 +107,7 @@ export default function Faturas(props) {
               );
             })}
         </div>
+        <CardInvoiceTotal invoices={invoices} />
         <div className={styles.button}>
           <Button text="Adicionar fatura" onclick={() => handleAddInvoice()} />
         </div>
