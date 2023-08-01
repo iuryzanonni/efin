@@ -25,6 +25,10 @@ exports.saveInvoice = async (data) => {
   await Invoice.create(data);
 };
 
+exports.saveInvoices = async (data) => {
+  await Invoice.bulkCreate(data);
+};
+
 exports.updateInvoice = async (data) => {
   await Invoice.update({ ...data }, { where: { id: data.id } });
 };
