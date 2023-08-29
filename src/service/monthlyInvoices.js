@@ -6,9 +6,12 @@ exports.createInvoices = async (data) => {
   data.monthlyInvoices.map(async (monthlyInvoice) => {
     const invoice = monthlyInvoice.dataValues;
 
+    const dueDate = new Date(data.year + "-" + data.month + "-" + monthlyInvoice.dueDay);
+    dueDate.setUTCHours(dueDate.getUTCHours() - 3, 0, 0, 0);
+
     invoice.installments = 1;
     invoice.isMonthly = true;
-    invoice.dueDate = new Date(data.year + "-" + data.month + "-" + monthlyInvoice.dueDay);
+    invoice.dueDate = dueDate;
 
     delete invoice.active;
     delete invoice.dueDay;
