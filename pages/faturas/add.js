@@ -42,7 +42,7 @@ export default function AddInvoice() {
       type,
       installments,
       value,
-      dueDate: new Date(dueDate),
+      dueDate: new Date(dueDate.split("-")[0], dueDate.split("-")[1] - 1, dueDate.split("-")[2]),
       isMonthly,
     };
 
